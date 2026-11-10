@@ -17,38 +17,15 @@ RAINFALL_URL = "https://api-open.data.gov.sg/v2/real-time/api/rainfall"
 CARPARK_URL = "https://api.data.gov.sg/v1/transport/carpark-availability"
 
 
-# def get_json(url, params):
-#     # Wait and retry when the rate limit is hit
-#     for _ in range(10):
-#         response = requests.get(url, params=params, timeout=60)
-#         if response.status_code != 429:
-#             response.raise_for_status()
-#             return response.json()
-#         time.sleep(11)
-#     raise RuntimeError(f"Still rate limited: {url} {params}")
-
-
 def get_json(url, params):
-    for attempt in range(10):
-        try:
-            response = requests.get(
-                url,
-                params=params,
-                timeout=60
-            )
-
+    # Wait and retry when the rate limit is hit
+    for _ in range(10):
+        response = requests.get(url, params=params, timeout=60)
+        if response.status_code != 429:
             response.raise_for_status()
             return response.json()
-
-        except requests.exceptions.RequestException as e:
-            print(f"Request failed: {e}")
-
-            if attempt < 9:
-                wait = min(11 * (attempt + 1), 60)
-                print(f"Retrying in {wait} seconds...")
-                time.sleep(wait)
-
-    raise RuntimeError(f"Failed after 10 attempts: {url} {params}")
+        time.sleep(11)
+    raise RuntimeError(f"Still rate limited: {url} {params}")
 
 
 def days():
@@ -114,6 +91,6 @@ def download_carpark():
     print(f"Saved: {path}")
 
 
-# download_rainfall()
+download_rainfall()
 download_carpark()
 print("Download completed.")
