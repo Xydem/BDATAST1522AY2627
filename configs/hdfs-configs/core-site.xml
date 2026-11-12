@@ -1,0 +1,20 @@
+<!-- core-site.xml -->
+<configuration>
+  <!-- Define the default filesystem as HDFS with the NameNode's address -->
+  <property>
+    <name>fs.defaultFS</name>
+    <value>hdfs://namenode:8020</value>
+  </property>
+
+  <!-- Set Hadoop temporary directory -->
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/opt/hadoop/data</value>
+  </property>
+
+  <!-- Set user for http service -->
+  <property>
+    <name>hadoop.http.staticuser.user</name>
+    <value>root</value>
+  </property>
+</configuration>

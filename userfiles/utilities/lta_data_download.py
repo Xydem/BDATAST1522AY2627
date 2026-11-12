@@ -19,7 +19,7 @@ if not LTA_API_KEY:
 
 BASE_URL = "https://datamall2.mytransport.sg/ltaodataservice"
 
-OUTPUT = Path("CA1_Datasets")
+OUTPUT = Path(__file__).resolve().parent.parent / "data"
 OUTPUT.mkdir(exist_ok=True)
 
 HEADERS = {

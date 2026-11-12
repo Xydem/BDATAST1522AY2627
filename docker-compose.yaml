@@ -1,0 +1,126 @@
+    
+services:
+  namenode:
+    image: liuzheng1990/hadoop-spark-sp:latest
+    volumes:
+      - ./namenode_data:/opt/hadoop/data/name
+      - ./configs/hdfs-configs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./configs/hdfs-configs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./configs/hdfs-configs/log4j.properties:/opt/hadoop/etc/hadoop/log4j.properties:ro
+    ports:
+      - 9870:9870
+    user: root
+    environment:
+      - HADOOP_HOME=/opt/hadoop
+      - HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+      - HADOOP_LOG_DIR=/opt/hadoop/logs
+      - HDFS_NAMENODE_USER=root
+    command: >
+        /bin/sh -c 'if [ ! -d "/opt/hadoop/data/name/current" ]; then
+                        echo "Formatting /opt/hadoop/data/name ..."
+                        hdfs namenode -format -force -nonInteractive
+                    fi
+                    echo "Launching up namenode service..."
+                    exec hdfs namenode'
+
+  datanode1:
+    image: liuzheng1990/hadoop-spark-sp:latest
+    user: root
+    volumes:
+      - ./datanode1_data:/opt/hadoop/data/data
+      - ./configs/hdfs-configs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./configs/hdfs-configs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./configs/hdfs-configs/log4j.properties:/opt/hadoop/etc/hadoop/log4j.properties:ro
+    environment:
+      - HADOOP_HOME=/opt/hadoop
+      - HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+      - HADOOP_LOG_DIR=/opt/hadoop/logs
+      - HDFS_DATANODE_USER=root
+    command: /bin/sh -c "exec hdfs datanode"
+
+  datanode2:
+    image: liuzheng1990/hadoop-spark-sp:latest
+    user: root
+    volumes:
+      - ./datanode2_data:/opt/hadoop/data/data
+      - ./configs/hdfs-configs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./configs/hdfs-configs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./configs/hdfs-configs/log4j.properties:/opt/hadoop/etc/hadoop/log4j.properties:ro
+    environment:
+      - HADOOP_HOME=/opt/hadoop
+      - HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+      - HADOOP_LOG_DIR=/opt/hadoop/logs
+      - HDFS_DATANODE_USER=root
+    command: /bin/sh -c "exec hdfs datanode"
+
+  datanode3:
+    image: liuzheng1990/hadoop-spark-sp:latest
+    user: root
+    volumes:
+      - ./datanode3_data:/opt/hadoop/data/data
+      - ./configs/hdfs-configs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./configs/hdfs-configs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./configs/hdfs-configs/log4j.properties:/opt/hadoop/etc/hadoop/log4j.properties:ro
+    environment:
+      - HADOOP_HOME=/opt/hadoop
+      - HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+      - HADOOP_LOG_DIR=/opt/hadoop/logs
+      - HDFS_DATANODE_USER=root
+    command: /bin/sh -c "exec hdfs datanode"
+
+  resourcemanager:
+    image: liuzheng1990/hadoop-spark-sp:latest
+    user: root
+    volumes:
+      - ./configs/hdfs-configs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./configs/hdfs-configs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./configs/hdfs-configs/log4j.properties:/opt/hadoop/etc/hadoop/log4j.properties:ro
+      - ./configs/yarn-configs/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml:ro
+      - ./configs/yarn-configs/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml:ro
+    environment:
+      - HADOOP_HOME=/opt/hadoop
+      - HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+      - HADOOP_LOG_DIR=/opt/hadoop/logs
+      - HDFS_NAMENODE_USER=root
+    ports:
+      - 8088:8088
+    command: /bin/sh -c "exec yarn resourcemanager"
+  
+  nodemanager1:
+    image: liuzheng1990/hadoop-spark-sp:latest
+    user: root
+    volumes:
+      - ./configs/hdfs-configs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./configs/hdfs-configs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./configs/hdfs-configs/log4j.properties:/opt/hadoop/etc/hadoop/log4j.properties:ro
+      - ./configs/yarn-configs/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml:ro
+      - ./configs/yarn-configs/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml:ro
+    environment:
+      - HADOOP_HOME=/opt/hadoop
+      - HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+      - HADOOP_LOG_DIR=/opt/hadoop/logs
+      - HDFS_NAMENODE_USER=root
+    command: /bin/sh -c "exec yarn nodemanager"
+
+ 
+  client:
+    image: liuzheng1990/hadoop-spark-sp:latest
+    user: root
+    volumes:
+      - ./configs/hdfs-configs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./configs/hdfs-configs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - ./configs/hdfs-configs/log4j.properties:/opt/hadoop/etc/hadoop/log4j.properties:ro
+      - ./configs/yarn-configs/yarn-site.xml:/opt/hadoop/etc/hadoop/yarn-site.xml:ro
+      - ./configs/yarn-configs/mapred-site.xml:/opt/hadoop/etc/hadoop/mapred-site.xml:ro
+    
+      - ./userfiles:/home/user/
+
+    environment:
+      - HADOOP_HOME=/opt/hadoop
+      - HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+      - HADOOP_LOG_DIR=/opt/hadoop/logs
+      - HDFS_NAMENODE_USER=root
+    working_dir: /home/user
+    tty: true
+    stdin_open: true
+    command: bash

@@ -3,18 +3,12 @@
 .env.*
 
 # Data folder
-CA1_Datasets/
+namenode_data/
+datanode*_data/
+
+userfiles/*.txt
+userfiles/data/*
 
 # Python virtual environment
 venv/
 .venv/
-
-# Dependencies
-node_modules/
-
-# Build output
-dist/
-build/
-
-# OS / editor files
-.DS_Store

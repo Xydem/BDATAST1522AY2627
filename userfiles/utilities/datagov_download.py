@@ -10,7 +10,7 @@ START = date(2026, 9, 1)
 END = date(2026, 9, 30)
 CARPARK_EVERY_HOURS = 1
 
-OUTPUT = Path("CA1_Datasets")
+OUTPUT = Path(__file__).resolve().parent.parent / "data"
 OUTPUT.mkdir(exist_ok=True)
 
 RAINFALL_URL = "https://api-open.data.gov.sg/v2/real-time/api/rainfall"

@@ -1,0 +1,26 @@
+<!-- hdfs-site.xml for NameNode -->
+<configuration>
+  <!-- Set replication factor -->
+  <property>
+    <name>dfs.replication</name>
+    <value>2</value>
+  </property>
+
+  <!-- NameNode storage directory -->
+  <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file:///opt/hadoop/data/name</value>
+  </property>
+
+   <!-- DataNode storage directory -->
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>file:///opt/hadoop/data/data</value>
+  </property>
+
+  <property>
+    <name>dfs.blocksize</name>
+    <value>4194304</value>
+    <description>Block size in bytes. Set to 4MB for educational purpose.</description>
+  </property>
+</configuration>
