@@ -9,6 +9,8 @@ datanode*_data/
 userfiles/*.txt
 userfiles/data/*
 
+evidence/*
+
 # Python virtual environment
 venv/
 .venv/
