@@ -11,6 +11,9 @@ userfiles/data/*
 
 evidence/*
 
+submit/update1/*
+submit/update2/*
+
 # Python virtual environment
 venv/
 .venv/
